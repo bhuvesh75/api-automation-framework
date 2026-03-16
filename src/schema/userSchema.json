@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Single User Response",
+  "description": "Schema for the GET /api/users/:id response from reqres.in",
+  "type": "object",
+  "required": ["data", "support"],
+  "additionalProperties": false,
+  "properties": {
+    "data": {
+      "type": "object",
+      "description": "The user record",
+      "required": ["id", "email", "first_name", "last_name", "avatar"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique numeric identifier for the user"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the user"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "First name of the user"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "Last name of the user"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the user avatar image"
+        }
+      }
+    },
+    "support": {
+      "type": "object",
+      "description": "Support information included in every response",
+      "required": ["url", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the support page"
+        },
+        "text": {
+          "type": "string",
+          "description": "Support message text"
+        }
+      }
+    }
+  }
+}

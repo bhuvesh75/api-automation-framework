@@ -1,0 +1,36 @@
+{
+  "name": "api-automation-framework",
+  "version": "1.0.0",
+  "description": "Production-grade REST API test automation framework using Supertest, Jest, and Allure",
+  "author": "Bhuvesh Yadav <https://github.com/bhuvesh75>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest --runInBand",
+    "test:smoke": "jest tests/smoke --runInBand",
+    "test:functional": "jest tests/functional --runInBand",
+    "test:regression": "jest tests/regression --runInBand",
+    "allure:generate": "allure generate allure-results -o reports --clean",
+    "allure:open": "allure open reports",
+    "allure:report": "npm run allure:generate && npm run allure:open"
+  },
+  "dependencies": {
+    "@faker-js/faker": "8.4.1",
+    "ajv": "8.13.0",
+    "dotenv": "16.4.5",
+    "supertest": "7.0.0"
+  },
+  "devDependencies": {
+    "allure-js-commons": "^2.15.1",
+    "jest": "29.7.0",
+    "jest-allure2-reporter": "^2.3.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.js"],
+    "reporters": [
+      "default",
+      ["jest-allure2-reporter", { "resultsDir": "allure-results" }]
+    ],
+    "testTimeout": 10000
+  }
+}
