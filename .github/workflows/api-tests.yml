@@ -18,18 +18,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Create environment file
-        run: |
-          cp .env.example .env
-          sed -i "s/your-api-key-here/${{ secrets.REQRES_API_KEY }}/" .env
+        run: cp .env.example .env
 
       - name: Run all tests
         run: npm test
+        env:
+          API_KEY: ${{ secrets.REQRES_API_KEY }}
 
       - name: Install Allure CLI
         if: always()

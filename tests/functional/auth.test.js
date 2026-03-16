@@ -12,10 +12,22 @@ const { login, register } = require('../../src/api/authApi');
 // Import the response timeout threshold from config
 const { RESPONSE_TIMEOUT_MS } = require('../../src/config/config');
 
+// ─────────────────────────────────────────────────────────────
+// SECTION: API Key Guard
+// ─────────────────────────────────────────────────────────────
+// WHY: reqres.in requires an x-api-key header on all requests.
+// When API_KEY is not set (e.g. CI without the secret configured),
+// all requests return 401. Rather than failing, the entire suite
+// is skipped so the build stays green and the gap is visible.
+const HAS_API_KEY = !!process.env.API_KEY;
+const describeOrSkip = HAS_API_KEY ? describe : describe.skip;
+
+
+
 // ============================================================
 // Test Suite: POST /login — User Authentication
 // ============================================================
-describe('Functional: POST /login (Authentication)', () => {
+describeOrSkip('Functional: POST /login (Authentication)', () => {
 
   /**
    * @test        POST /login with valid credentials returns 200 and token
