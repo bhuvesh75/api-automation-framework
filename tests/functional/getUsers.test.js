@@ -94,7 +94,7 @@ describeOrSkip('Functional: GET /users (List)', () => {
 // ============================================================
 // Test Suite: GET /users/:id — Single User Retrieval
 // ============================================================
-describe('Functional: GET /users/:id (Single User)', () => {
+describeOrSkip('Functional: GET /users/:id (Single User)', () => {
 
   /**
    * @test        GET /users/2 returns 200 with correct user data

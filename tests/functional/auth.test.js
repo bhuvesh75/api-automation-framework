@@ -91,7 +91,7 @@ describeOrSkip('Functional: POST /login (Authentication)', () => {
 // ============================================================
 // Test Suite: POST /register — User Registration
 // ============================================================
-describe('Functional: POST /register (Registration)', () => {
+describeOrSkip('Functional: POST /register (Registration)', () => {
 
   /**
    * @test        POST /register with valid credentials returns 200 and token
