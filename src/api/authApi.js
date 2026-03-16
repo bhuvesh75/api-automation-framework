@@ -30,11 +30,11 @@ const request = supertest(BASE_URL);
 async function login(email, password) {
   // Build the credentials payload for the login request
   const payload = { email, password };
-  // Send POST request to the /login endpoint with the credentials
-  const response = await request
-    .post('/login')       // Target the /login authentication endpoint
-    .set('x-api-key', API_KEY) // Attach the required API key header
-    .send(payload);       // Attach the JSON credentials to the request body
+  // Build the request chain — only attach API key header when key is configured
+  // WHY: sending an empty x-api-key header causes reqres.in to return 401
+  let req = request.post('/login').send(payload);
+  if (API_KEY) req = req.set('x-api-key', API_KEY);
+  const response = await req;
   // Return the complete response so tests can assert on status and body
   return response;
 }
@@ -55,11 +55,11 @@ async function login(email, password) {
 async function register(email, password) {
   // Build the credentials payload for the registration request
   const payload = { email, password };
-  // Send POST request to the /register endpoint with the new account data
-  const response = await request
-    .post('/register')    // Target the /register account creation endpoint
-    .set('x-api-key', API_KEY) // Attach the required API key header
-    .send(payload);       // Attach the JSON credentials to the request body
+  // Build the request chain — only attach API key header when key is configured
+  // WHY: sending an empty x-api-key header causes reqres.in to return 401
+  let req = request.post('/register').send(payload);
+  if (API_KEY) req = req.set('x-api-key', API_KEY);
+  const response = await req;
   // Return the complete response so tests can assert on status and body
   return response;
 }

@@ -27,11 +27,11 @@ const request = supertest(BASE_URL);
  *   console.log(res.body.data); // array of user objects
  */
 async function getUsers(page = 1) {
-  // Send GET request with the page query string appended
-  const response = await request
-    .get('/users')          // Target the /users endpoint
-    .set('x-api-key', API_KEY) // Attach the required API key header
-    .query({ page: page }); // Append ?page=N to the URL
+  // Build the request chain — only attach API key header when key is configured
+  // WHY: sending an empty x-api-key header causes reqres.in to return 401
+  let req = request.get('/users').query({ page: page });
+  if (API_KEY) req = req.set('x-api-key', API_KEY);
+  const response = await req;
   // Return the complete response for assertion in tests
   return response;
 }
@@ -48,10 +48,11 @@ async function getUsers(page = 1) {
  *   console.log(res.body.data.email); // "janet.weaver@reqres.in"
  */
 async function getUserById(id) {
-  // Build the URL path with the user ID interpolated
-  const response = await request
-    .get(`/users/${id}`)          // Target /users/:id
-    .set('x-api-key', API_KEY);   // Attach the required API key header
+  // Build the request chain — only attach API key header when key is configured
+  // WHY: sending an empty x-api-key header causes reqres.in to return 401
+  let req = request.get(`/users/${id}`);
+  if (API_KEY) req = req.set('x-api-key', API_KEY);
+  const response = await req;
   // Return the complete response for assertion in tests
   return response;
 }
@@ -70,11 +71,11 @@ async function getUserById(id) {
  *   console.log(res.body.id); // server-generated ID
  */
 async function createUser(payload) {
-  // Send POST request with JSON body — supertest sets Content-Type automatically
-  const response = await request
-    .post('/users')         // Target the /users endpoint
-    .set('x-api-key', API_KEY) // Attach the required API key header
-    .send(payload);         // Attach the JSON payload to the request body
+  // Build the request chain — only attach API key header when key is configured
+  // WHY: sending an empty x-api-key header causes reqres.in to return 401
+  let req = request.post('/users').send(payload);
+  if (API_KEY) req = req.set('x-api-key', API_KEY);
+  const response = await req;
   // Return the complete response for assertion in tests
   return response;
 }
@@ -94,11 +95,11 @@ async function createUser(payload) {
  *   console.log(res.body.updatedAt); // ISO timestamp
  */
 async function updateUser(id, payload) {
-  // Send PUT request to replace the entire user resource
-  const response = await request
-    .put(`/users/${id}`)    // Target /users/:id with PUT method
-    .set('x-api-key', API_KEY) // Attach the required API key header
-    .send(payload);         // Attach the JSON payload to the request body
+  // Build the request chain — only attach API key header when key is configured
+  // WHY: sending an empty x-api-key header causes reqres.in to return 401
+  let req = request.put(`/users/${id}`).send(payload);
+  if (API_KEY) req = req.set('x-api-key', API_KEY);
+  const response = await req;
   // Return the complete response for assertion in tests
   return response;
 }
@@ -116,11 +117,11 @@ async function updateUser(id, payload) {
  *   console.log(res.body.updatedAt); // ISO timestamp
  */
 async function patchUser(id, payload) {
-  // Send PATCH request to update only the provided fields
-  const response = await request
-    .patch(`/users/${id}`)  // Target /users/:id with PATCH method
-    .set('x-api-key', API_KEY) // Attach the required API key header
-    .send(payload);         // Attach the partial JSON payload
+  // Build the request chain — only attach API key header when key is configured
+  // WHY: sending an empty x-api-key header causes reqres.in to return 401
+  let req = request.patch(`/users/${id}`).send(payload);
+  if (API_KEY) req = req.set('x-api-key', API_KEY);
+  const response = await req;
   // Return the complete response for assertion in tests
   return response;
 }
@@ -137,10 +138,11 @@ async function patchUser(id, payload) {
  *   console.log(res.status); // 204
  */
 async function deleteUser(id) {
-  // Send DELETE request to remove the user resource
-  const response = await request
-    .delete(`/users/${id}`)       // Target /users/:id with DELETE method
-    .set('x-api-key', API_KEY);   // Attach the required API key header
+  // Build the request chain — only attach API key header when key is configured
+  // WHY: sending an empty x-api-key header causes reqres.in to return 401
+  let req = request.delete(`/users/${id}`);
+  if (API_KEY) req = req.set('x-api-key', API_KEY);
+  const response = await req;
   // Return the complete response for assertion in tests
   return response;
 }
